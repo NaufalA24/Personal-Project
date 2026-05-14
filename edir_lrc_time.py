@@ -1,3 +1,8 @@
+# ISSUE NOTE
+# Only work for [H:MM:SS.MsMs] format, other format will crash
+# Subtraction didn't work
+# No error proofing
+
 import re
 from pathlib import Path
 
@@ -6,7 +11,7 @@ def main() :
     lyricSource = input('input source file name including format　')
     lyricSource = Path(__file__).parent / f'{lyricSource}'
     finLyric = input('input finished file name including format　')
-    addTime = float(input('input time difference, if lyric is delayed the difference is negative. format = [s][s].[ms][ms]'))
+    addTime = float(input('input time difference. format = [s][s].[ms][ms]'))
 
     # open source file
     with open(f'{lyricSource}' , encoding='utf-8') as script:
