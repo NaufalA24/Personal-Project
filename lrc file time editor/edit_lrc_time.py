@@ -2,14 +2,24 @@ import re
 from pathlib import Path
 
 def main() :
-    lyricSource = input('input source file name including format　')
-    lyricSource = Path(__file__).parent / f'{lyricSource}'
-    finLyric = input('input finished file name including format　')
-    addTime = float(input('input time difference, if lyric is delayed the difference is negative. format = [s][s].[ms][ms]'))
+    while True :
+        try :
+            lyricSource = input('input source file name including format　')
+            lyricSource = Path(__file__).parent / f'{lyricSource}'
+            finLyric = input('input finished file name including format　')
+            addTime = float(input('input time difference, if lyric is delayed the difference is negative. format = [s][s].[ms][ms]'))
 
-    # open source file　ソースファイル開く
-    with open(f'{lyricSource}' , encoding='utf-8') as script:
-        Operate(finLyric, addTime, script)
+            # open source file　ソースファイル開く
+            with open(f'{lyricSource}' , encoding='utf-8') as script:
+                Operate(finLyric, addTime, script)
+                
+            break
+        
+        except Exception as e :
+            print(e)
+            print('Error has occured, please try again')
+
+            continue
 
 def Operate(finLyric, addTime, script) :
     # open target file　ターゲットファイル作る
