@@ -37,32 +37,26 @@ def Operate(finLyric, addTime, script) :
             # separate each time component　タイムタグの中身分ける
             timeComp = timeStamp.split(":")
             timeFormat = len(timeComp)
+
+            minute = int(timeComp[timeFormat-2])
+            second = float(timeComp[timeFormat-1])
             if timeFormat == 3 :
                 hour = int(timeComp[timeFormat-3])
-                minute = int(timeComp[timeFormat-2])
-                second = float(timeComp[timeFormat-1])
-            else :
-                minute = int(timeComp[timeFormat-2])
-                second = float(timeComp[timeFormat-1])
 
 
             second += addTime   # add time difference　時差を足す
 
             # check for overflow and format aligning　オーバーフローチェックとフォーマティング
             second, minute = overflowCheck(second, minute)
-            if minute >= 60 or minute < 0 :
-                minute, hour = overflowCheck(minute, hour)
-            hour = str(hour).zfill(2)
+            if hour :
+                minute = hour_remove(minute, hour)
+
             minute = str(minute).zfill(2)
             second = f'{second:05.2f}'
-            timeComp[timeFormat-3] = hour
             timeComp[timeFormat-2] = minute
             timeComp[timeFormat-1] = second
             timeStamp = f'{timeComp[timeFormat-2]}:{timeComp[timeFormat-1]}'
             
-            if hour != '00' :
-                timeStamp = f'{timeComp[timeFormat-3]}:{timeComp[timeFormat-2]}:{timeComp[timeFormat-1]}'
-
             f.write(f'[{timeStamp}]{lyric}\n')
             
 def overflowCheck(x,y) :    # time overflow check function
@@ -77,6 +71,11 @@ def overflowCheck(x,y) :    # time overflow check function
             y -= 1
             
     return x, y
+
+def hour_remove(x,y) :
+    if y !=0 :
+        x += y*60
+    return y
 
 
 if __name__ == '__main__' :
